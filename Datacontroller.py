@@ -6,8 +6,8 @@ class DataController:
         self.filename = filename
 
     def splitgooglelocationsbydate(self, startdate, enddate):
-        t_start = datetime.datetime(startdate.year, startdate.month, startdate.day, 0, 0).timestamp()
-        t_end = datetime.datetime(enddate.year, enddate.month, enddate.day, 0, 0).timestamp()
+        t_start = datetime.datetime.timestamp(startdate)
+        t_end = datetime.datetime.timestamp(enddate)
         out_array = []
         with open(self.filename) as json_file:
             data = json.load(json_file)
