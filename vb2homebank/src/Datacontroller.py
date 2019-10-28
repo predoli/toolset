@@ -1,4 +1,4 @@
-from vb2homebank.src.Depends import *
+from src.Depends import *
 
 
 class VbHomeBaseConverter:
@@ -15,15 +15,15 @@ class VbHomeBaseConverter:
                     continue
                 elif row[1] == '':
                     continue
-                elif readCSV.line_num >= 15:
-                    dataset = Dataset.DataSet(row)
+                elif read_csv.line_num >= 15:
+                    dataset = DataSet(row)
                     dataset_list.append(dataset)
-                elif readCSV.line_num < 15:
+                elif read_csv.line_num < 15:
                     continue
         with open(outfile, 'w') as csvoutfile:
             writer = csv.writer(csvoutfile, delimiter=';')
             for d in dataset_list:
-                writer.writerow(d.getHomeBankRowString())
+                writer.writerow(d.get_home_bank_row_string())
 
 
 class DataSet:
@@ -42,7 +42,7 @@ class DataSet:
     # 11=Umsatz
     # 12=""
 
-    def __init__(self,rpw):
+    def __init__(self,row):
         self.money_value = 0.0
         self.date = datetime.date(2000,1,1)
         self.receiver = ""
@@ -66,9 +66,12 @@ class DataSet:
         self.datehandler(rowlist[1])
         self.moneyhandler(rowlist[11], rowlist[12])
         self.receiver = rowlist[3]
-        self.info = rowlist[8]
+        self.info = " ".join(rowlist[8].split())
 
-    def getHomeBankRowString(self):
+    def get_home_bank_row_string(self):
         # homebank spec: http://homebank.free.fr/help/index.html
-        return [str(self.date), "0", self.info, str(self.receiver), '', str(self.money_value), "Verschiedenes", "tag1"]
+        # 15-02-04;0;;;Some cash;-40,00;Bill:Withdrawal of cash;tag1 tag2
+        # 15-02-04;1;;;Internet DSL;-45,00;Inline service/Internet;tag2 my-tag3
+        return [str(self.date), "0", "", str(self.receiver), self.info, str(self.money_value), "Verschiedenes", "tag1"]
+
 

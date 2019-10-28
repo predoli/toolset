@@ -1,11 +1,15 @@
-from vb2homebank.src.Datacontroller import *
-
-parser = argparse.ArgumentParser()
-parser.add_argument("infile", help="input file name (.csv)")
-parser.add_argument("outfile", help="output file name (.csv)")
-args = parser.parse_args()
+from src.Datacontroller import *
 
 
-c = VbHomeBaseConverter(args.infile)
-c.vb2homebank(args.outfile)
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("infile", help="input file name (.csv)")
+    parser.add_argument("outfile", help="output file name (.csv)")
+    args = parser.parse_args()
+    c = VbHomeBaseConverter(args.infile)
+    c.vb2homebank(args.outfile)
+
+
+if __name__=="__main__":
+    main()
 
